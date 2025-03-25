@@ -7,9 +7,9 @@
 - kubectl
 - helm
 
-```
-choco install kubernetes-helm
-```
+  ```
+  choco install kubernetes-helm
+  ```
 
 ## Create an IAM user for setting-up EKS cluster
 
@@ -112,8 +112,6 @@ kubectl apply -f manifests/nginx-deployment.yml
 [Most of the pods will go in pending state due to resource crunch]
 [You may revise the instance type to accomodate more pods]
 ```
-
-## Helm Package Manager on EKS
 
 ## Managing Users & RBAC in EKS
 
@@ -454,6 +452,20 @@ spec:
 
 ## Kubernetes Dashboard - Web-based Interface
 
+## Tip: Combining config into single file
+
+## Load Balancer `Services`
+
+- ClusterIP service
+- NodePort service
+- LoadBalancer service
+
+### 01. ClusterIP service
+
+### 02. NodePort service
+
+### 03. LoadBalancer service
+
 ## EKS Ingress
 
 - References
@@ -470,8 +482,16 @@ spec:
 
 - AWS Auto is required (else have to install alb-ingress-controller+alb)
 
+## EKS
+
 ## EKS Logging & Monitoring
 
 - Logging and Monitoring using fluent
 - Logging and Monitoring using fluentbit
 - Logging and Monitoring using prometheus
+
+## Linux Essentials
+
+## Git Essentials
+
+## DevOps Essentials

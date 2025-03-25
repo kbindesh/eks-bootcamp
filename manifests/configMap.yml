@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+data:
+  db_name: "salesOrder"
+  db_port: "1433"
+  LOG_FILE_LOC: "/var/lib/db/app.log"

@@ -2,6 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: prod-reader-role-binding
+  namespace: production
 subjects:
   - kind: User
     name: prod-reader

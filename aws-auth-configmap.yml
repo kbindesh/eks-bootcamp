@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::154511248558:role/eksctl-labekscluster-nodegroup-eks-NodeInstanceRole-wKsj9IKzrhD4
+      username: system:node:{{EC2PrivateDNSName}}
+  mapUsers: |
+    - userarn: arn:aws:iam::154511248558:user/prod-reader
+      username: prod-reader
+      groups:
+        - prod-reader-role
+
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2025-03-23T06:00:39Z"
+  name: aws-auth
+  namespace: kube-system
+  resourceVersion: "4901"
+  uid: 1d643e8c-831f-45f5-b852-4b7d1f4b0a3d
