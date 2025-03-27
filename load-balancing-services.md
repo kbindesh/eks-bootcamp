@@ -1,8 +1,5 @@
 # Setting Load Balancing for Applications on EKS
 
-- In the earlier chapters, we've learnt how you can use a NodePort, Ingress, and/or AWS Load Balancer (ELB) to expose a simple application.
-- In this section, you will demonstrate on how to scale and provide greater resilience in your application using AWS Elastic Load Balancers (ELBs).
-
 ## 01. Which load balancers are available in AWS?
 
 - In Amazon EKS, you can use the following two types of AWS load balancer services:
@@ -11,7 +8,7 @@
 
 ## 02. `Proxy` and `Direct Server Return (DSR)` Modes
 
-## 03. Choosing the right ELB
+## 03. Choosing the right AWS ELB
 
 - Imagine that you want to expose a simple microservice running on EKS to the outside world in a scalable and resilient manner. Which ELB would you choose?
 - Here are some questions you might want to ask to help you make your decision:
@@ -50,4 +47,42 @@ kubectl get svc
   - Launch a browser and hit this URL: <your_worker_node_public_ip>:30080
   - You should see a sample _Welcome to nginx_ page popping-up.
 
+**NOTE**: As per k8s best practices, nodeport service is not a recommended solution for making your application accessible to outside k8s cluster users.
+
 ## 06. `Lab` - Deploying an application on EKS cluster and publish it using k8s `loadbalancer` service & AWS Application Load Balancer (ALB)
+
+## 10. `Lab` - Deploying an application on EKS cluster and publish it using k8s `loadbalancer` service & AWS Classic Load Balancer
+
+- **IMP**: K8s _loadbalancer service_ is available only with the managed kubernetes services (like EKS, AKS, GKE) as it uses external load balancer services to distribute the load.
+
+- For this lab manifest, you may refer [manifests/loadbalancer-svc-for-nginx-app.yml](./manifests/loadbalancer-svc-for-nginx-app.yml)
+
+```
+# To execute the above manifest >> This will deploy nginx app and a nodeport service to publish it
+kubectl apply -f loadbalancer-svc-for-nginx-app.yml
+
+# Get the list of all the services
+kubectl get svc
+
+[The preceding command will list services in which you will find nginx-lb-service loadBalancer service]
+```
+
+- You can also check the created resources and associated load balancer details from the AWS management console.
+
+[Make sure you have necessary permissions to view the EKS resources from the AWS console]
+
+- Executing above manifest will also create a new AWS Classic load balancer; to see, navigate to AWS console >> EC2 >> Load Balancers.
+
+- Now, to access the EKS hosted nginx application over a load balancer, copy the
+  _DNS Name_ of the AWS load balancer and visit it through your browser.
+
+```
+# Sample classic load balancer DNS name
+http://khk234j23j4j23j4kkjk2k-1151857589.eu-west-3.elb.amazonaws.com
+```
+
+[You should see the nginx sample page]
+
+- Enable AWS classic load balancer to listen on port 443 (HTTPS)
+
+- Allow AWS classic loadbalancer ingress traffic on port 443 (HTTPS)
