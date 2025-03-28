@@ -1,6 +1,6 @@
 # Amazon EKS Bootcamp
 
-# HTML table with Cell merge
+This repo has a comprehensive K8s and Amazon EKS learning material. Following are the topics discussed here:
 
 <table>
     <thead>
@@ -21,6 +21,31 @@
             <td><a href='./02-setting-up-eks-cluster.md'>Setting-up Amazon EKS Cluster</a></td>
             <td>Setting-up EKS Cluster</td>
         </tr>
+        <tr>
+            <td>3</td>
+            <td><a href='./02-setting-up-eks-cluster.md'>Kubernetes key concepts</a></td>
+            <td>Kubernetes key concepts</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><a href='./02-setting-up-eks-cluster.md'>Namespaces</a></td>
+            <td>Kubernetes namespace for grouping resources in logically isolated spaces</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td><a href='./02-setting-up-eks-cluster.md'>Selectors, Labels and Annotations</a></td>
+            <td>Selectors, Labels and Annotations</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td><a href='./02-setting-up-eks-cluster.md'>Deploying Stateless applications on EKS cluster</a></td>
+            <td>Deploying stateless applications on EKS cluster using K8s <i>Deployments API</i></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td><a href='./02-setting-up-eks-cluster.md'>Deploying Stateful applications on EKS cluster</a></td>
+            <td>Deploying stateful applications on EKS cluster using K8s <i>StatefulSets API</i></td>
+        </tr> 
     </tbody>
 </table>
 
