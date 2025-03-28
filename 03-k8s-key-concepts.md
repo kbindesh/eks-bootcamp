@@ -4,7 +4,8 @@
 - Liveness and Readiness probes
 - Resource management for pods and containers (requests and limits)
 - Namespaces
-- Labels and Annotations
+- Labels, Selectors and Annotations
+- Stateful vs Stateless Applications
 
 ## 01. Kubernetes `init containers`
 

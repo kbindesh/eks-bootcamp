@@ -1,97 +1,28 @@
 # Amazon EKS Bootcamp
 
-## Setting-up the required apps on client machine
+# HTML table with Cell merge
 
-- aws cli
-- eksctl
-- kubectl
-- helm
-
-  ```
-  choco install kubernetes-helm
-  ```
-
-## Create an IAM user for setting-up EKS cluster
-
-- Create an IAM user
-- Authorize IAM user to communicate with all the EKS related resources - administratoraccess policy
-- Generate access keys
-
-## Connect to AWS Account using AWS CLI
-
-```
-aws configure
-
-[Enter access keys that you generated in the preceding step]
-```
-
-## Create EKS cluster using eksctl
-
-```
-kubectl version --client
-
-# If you ever need to update the eks cluster config
-aws eks update-kubeconfig --region region-code --name my-cluster
-
-# Create EKS cluster
-eksctl create cluster --name=labekscluster --region=us-east-1 --zones=us-east-1a,us-east-1b --without-nodegroup
-
-# Get List of clusters
-eksctl get cluster
-```
-
-## Create IAM Open ID Connect provider for EKS cluster
-
-```
-# Create IAM Open ID Connect provider for EKS cluster | Replace the region & cluster name value with specs
-eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster labekscluster --approve
-```
-
-## Create a Node group
-
-- You can create a node using eksctl in two different ways:
-  1. Using eksctl by passing all the required parameters through terminal
-  2. Using eksctl by passing config file as a parameter which carries your nodegroup specs
-
-### 01. Using eksctl by passing all the required parameters through terminal
-
-```
-eksctl create nodegroup --cluster=labekscluster --region=us-east-1 --name=eksdemo1-ng-public1 \
---node-type=t3.small --nodes=2 --nodes-min=2 --nodes-max=4 --node-volume-size=20 --ssh-access \
---ssh-public-key=binWinWebServerKey --managed --asg-access --external-dns-access --full-ecr-access \
---appmesh-access --alb-ingress-access
-```
-
-### 02. Using eksctl by passing config file as a parameter
-
-- Reference
-  - https://eksctl.io/usage/creating-and-managing-clusters/
-  - https://eksctl.io/usage/schema/
-- Create config file for EKS nodegroup
-- Kindly refer eks-node-group.yml file
-
-```
-eksctl create nodegroup --config-file=eks-node-group.yml
-```
-
-## List information
-
-```
-
-eksctl get clusters
-
-eksctl get nodegroups --cluster labekscluster
-
-eksctl get nodegroups
-
-kubectl get nodes
-
-kubectl get pods
-
-kubectl get namespaces
-
-kubectl get pods -n kube-system
-```
+<table>
+    <thead>
+        <tr>
+            <th>Serial No</th>
+            <th>Topic</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Amazon EKS Basics</td>
+            <td>Fundamentals of K8s concepts</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Setting-up EKS Cluster</td>
+            <td>Setting-up EKS Cluster</td>
+        </tr>
+    </tbody>
+</table>
 
 ## Review kube config file
 
