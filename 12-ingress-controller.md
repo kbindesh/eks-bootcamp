@@ -1,1 +1,0 @@
-# Configuring Ingress Controller & Resources
