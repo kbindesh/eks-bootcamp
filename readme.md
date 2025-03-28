@@ -13,12 +13,12 @@
     <tbody>
         <tr>
             <td>1</td>
-            <td>[Amazon EKS Basics](./01-eks-basics.md)</td>
+            <td><a href='./01-eks-basics.md'>Amazon EKS & K8s Basics</a></td>
             <td>Fundamentals of K8s concepts</td>
         </tr>
         <tr>
             <td>2</td>
-            <td>[Setting-up EKS Cluster](./02-setting-up-eks-cluster.md)</td>
+            <td><a href='./02-setting-up-eks-cluster.md'>Setting-up Amazon EKS Cluster</a></td>
             <td>Setting-up EKS Cluster</td>
         </tr>
     </tbody>
