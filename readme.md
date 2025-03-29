@@ -5,9 +5,10 @@ This repo has a comprehensive K8s and Amazon EKS learning material. Following ar
 <table>
     <thead>
         <tr>
-            <th>Serial No</th>
+            <th>S.No</th>
             <th>Topic</th>
             <th>Description</th>
+            <th>API Object</th>
         </tr>
     </thead>
     <tbody>
@@ -15,76 +16,91 @@ This repo has a comprehensive K8s and Amazon EKS learning material. Following ar
             <td>1</td>
             <td><a href='./01-eks-basics.md'>Amazon EKS & K8s Basics</a></td>
             <td>Fundamentals concepts of Kubernetes</td>
+            <td></td>
         </tr>
         <tr>
             <td>2</td>
             <td><a href='./02-setting-up-eks-cluster.md'>Setting-up Amazon EKS Cluster</a></td>
             <td>Setting-up EKS Cluster</td>
+            <td></td>            
         </tr>
         <tr>
             <td>3</td>
             <td><a href='./03-k8s-key-concepts.md'>Kubernetes key concepts</a></td>
             <td>Kubernetes key concepts</td>
+            <td></td>            
         </tr>
         <tr>
             <td>4</td>
             <td><a href='./04-namespaces.md'>Namespaces</a></td>
             <td>Using kubernetes namespaces for grouping resources in logically isolated spaces. i.e dev, prod, test envs</td>
+            <td></td>            
         </tr>
         <tr>
             <td>5</td>
             <td><a href='./05-selectors-labels-annotations.md'>Selectors, Labels and Annotations</a></td>
             <td>Selectors, Labels and Annotations</td>
+            <td></td>
         </tr>
         <tr>
             <td>6</td>
             <td><a href='./06-deploying-stateless-apps.md'>Deploying Stateless applications on EKS cluster</a></td>
             <td>Deploying stateless applications on EKS cluster using K8s <i>Deployments API</i></td>
+            <td></td>            
         </tr>
         <tr>
             <td>7</td>
             <td><a href='./07-deploying-stateful-apps.md'>Deploying Stateful applications on EKS cluster</a></td>
             <td>Deploying stateful applications on EKS cluster using K8s <i>StatefulSets API</i></td>
+            <td></td>            
         </tr>
         <tr>
             <td>8</td>
             <td><a href='./08-configuring-apps.md'>Configuring Applications</a></td>
             <td>Configuring applications in k8s using configMaps and Secrets</td>
+            <td></td>            
         </tr> 
         <tr>
             <td>9</td>
             <td><a href='./09-liveness-and-readiness-probes.md'>Liveness and Readiness Probes</a></td>
             <td>Liveness and Readiness Probes</td>
+            <td></td>            
         </tr> 
         <tr>
             <td>10</td>
             <td><a href='./10-scaling-applications.md'>Scaling Applications in EKS</a></td>
-            <td>Scaling Applications in EKS</td>
+            <td>Scaling Applications in EKS: HPA, Amazon EKS Auto Mode, Karpenter</td>
+            <td></td>            
         </tr>
         <tr>
             <td>11</td>
             <td><a href='./11-managing-storage-in-eks.md'>Managing Storage in EKS</a></td>
             <td>Managing Storage in EKS using K8s PV, PVC API objects and AWS EBS & EFS services </td>
+            <td></td>            
         </tr>
         <tr>
             <td>13</td>
             <td><a href='./13-load-balancing-in-eks-with-nlb.md'>Load Balancing in EKS with AWS NLB</td>
             <td>Load Balancing in EKS with AWS NLB (manual)</td>
+            <td></td>            
         </tr>
         <tr>
             <td>14</td>
             <td><a href='./13-ingress-controller.md'>Load balancing in EKS with AWS ALB & Ingress (recommended)</a></td>
             <td>Load balancing in EKS with AWS ALB & Ingress Controller (automatic) </td>
+            <td></td>            
         </tr>
         <tr>
             <td>15</td>
             <td><a href='./15-securing-eks.md'>Securing Kubernetes</a></td>
             <td>Authentication and Authorization mechanisms in K8s: kubeconfig, authentication process, service accounts, RBAC</td>
+            <td></td>            
         </tr>
         <tr>
             <td>16</td>
-            <td><a href='./16-irsa-in-eks.md'>IAM Roles for Service Accounts</a></td>
+            <td><a href='./16-irsa-in-eks.md'>IAM Roles for Service Accounts (IRSA)</a></td>
             <td>IRSA is an AWS native solution for allowing EKS Apps (pods) to communicate with AWS APIs</td>
+            <td></td>            
         </tr>                                                           
     </tbody>
 </table>

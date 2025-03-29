@@ -7,3 +7,4 @@
 - Horizontal Pod Autoscaler (HPA)
 - Cluster Autoscaler in EKS
 - Vertical Pod Autoscaler (VPA)
+- Karpenter

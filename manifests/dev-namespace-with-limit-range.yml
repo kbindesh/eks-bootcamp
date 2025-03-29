@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+  labels:
+    name: development
+
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: dev-ns-resource-limit-range
+  namespace: development
+spec:
+  limits:
+    - default: # this section defines default limits
+        cpu: "500m" # Default is 1 cpu
+        memory: "512Mi"
+      defaultRequest: # this section defines default requests
+        cpu: "300m"
+        memory: "256Mi"
+      type: Container
