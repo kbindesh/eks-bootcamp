@@ -1,8 +1,12 @@
 # Deploying Stateless Application using K8s Deployments
 
-## Step-xx: Develop k8s deployment manifests
+## Step-xx: Create a Deployment
 
-## Step-xx: Execute the manifests
+## Step-xx: Perform scaling operations
+
+## Step-xx: Perform a Rolling updates
+
+## Step-xx: Perform a Rollback
 
 ## Step-xx: Verify the results using kubectl
 

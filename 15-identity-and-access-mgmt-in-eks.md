@@ -195,8 +195,14 @@ kubectl get pods -n production
 [This command will succeed]
 ```
 
-## 04. Container Image Security
+## XX. Managing Service Accounts
 
-## 05. EKS Worker Node security
+```
+# List service accounts in the "default" namespace
+kubectl get servicesaccounts
+OR
+kubectl get sa
 
-## 06. Container Runtime security
+# List all the service accounts present in cluster (all the namespace)
+kubectl get servicesaccounts -A
+```
