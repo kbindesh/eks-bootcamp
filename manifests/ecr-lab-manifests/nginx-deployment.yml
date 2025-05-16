@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecr-demoapp
+  labels:
+    app: ecr-demoapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ecr-demoapp
+  template:
+    metadata:
+      labels:
+        app: ecr-demoapp
+    spec:
+      containers:
+        - name: ecr-demoapp
+          image: 154511248558.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-nginx:1.0.0
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
