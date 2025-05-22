@@ -211,46 +211,6 @@ docker login -u kbindesh
 dckr_pat_o1B1VJf_3fBS7cKWsdfdfgm-Lxl0
 ```
 
-## XX. Develop an `Application` with `Dockerfile` & `Jenkinsfile`
-
-### XX. Develop an App (source code)
-
-- You can clone this sample app repo: https://github.com/kbindesh/docker-sample-app
-
-```
-git clone https://github.com/kbindesh/docker-sample-app.git
-```
-
-### XX. Create a 'Dockerfile' (for packaging app in Docker Images)
-
-```
-FROM node:18-alpine
-RUN mkdir -p /usr/src/app
-COPY ./app/* /usr/src/app
-WORKDIR /usr/src/app
-RUN npm install
-CMD node /usr/src/app/index.js
-```
-
-### XX. Create a `Jenkinsfile` (for Jenkins pipeline)
-
-- You may refer to this [Jenkinsfile](./manifests/Jenkinsfile)
-
-## XX. Create and Run a Jenkins Pipeline job
-
-- **Name**: eks-app-deployment
-- **Type**: Pipeline
-- Description: This pipeline is for building docker image of a sample app and deploying it on EKS cluster.
-- Trigger: GitHub hook trigger for GITScm polling
-- Pipeline
-  - Definition: Pipeline script from SCM
-  - SCM: Git
-  - Repository URL: <your_github_repo_url>
-  - Branches to build: <your_github_repo_branch>
-  - Script path: Jenkinsfile
-
-## XX. Verify the pushed Docker Image from DockerHub registry
-
 ## XX. Create an `AWS IAM Policies & Role` for Jenkins and K8s Mgmt Servers
 
 - This reference doc link describes the minimum IAM policies needed to run the main use cases of eksctl: </br> *https://eksctl.io/usage/minimum-iam-policies/*
@@ -368,7 +328,51 @@ eksctl create nodegroup --cluster=labekscluster --region=us-east-1 --name=eksdem
   kubectl config view --minify
   ```
 
-## XX. Connect kubectl to an EKS cluster from Jenkins Server (create a kubeconfig file)
+## XX. Develop an `Application`, `Dockerfile` & `Jenkinsfile`
+
+### XX. Develop an App (source code)
+
+- You can clone this sample app repo: https://github.com/kbindesh/docker-sample-app
+
+```
+git clone https://github.com/kbindesh/docker-sample-app.git
+```
+
+### XX. Create a 'Dockerfile' (for packaging app in Docker Images)
+
+```
+FROM node:18-alpine
+RUN mkdir -p /usr/src/app
+COPY ./app/* /usr/src/app
+WORKDIR /usr/src/app
+RUN npm install
+CMD node /usr/src/app/index.js
+```
+
+### XX. Create a `Jenkinsfile` (for Jenkins pipeline)
+
+- You may refer to this [Jenkinsfile](./manifests/Jenkinsfile)
+
+## XX. Create `Kubernetes manifests` to deploy
+
+## XX. Create a new GitHub Repo and check-in the code
+
+## XX. Create and Run a Jenkins Pipeline job
+
+- **Name**: eks-app-deployment
+- **Type**: Pipeline
+- Description: This pipeline is for building docker image of a sample app and deploying it on EKS cluster.
+- Trigger: GitHub hook trigger for GITScm polling
+- Pipeline
+  - Definition: Pipeline script from SCM
+  - SCM: Git
+  - Repository URL: <your_github_repo_url>
+  - Branches to build: <your_github_repo_branch>
+  - Script path: Jenkinsfile
+
+## XX. Verify the published Docker Image from DockerHub registry and Deployed app on EKS cluster
+
+## XX. (Optional) Connect kubectl to an EKS cluster from Jenkins Server (create a kubeconfig file)
 
 - Reference: Ref: https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
 
@@ -379,9 +383,5 @@ aws eks update-kubeconfig --name labekscluster --region us-east-1
 
 cat ~/.kube/config
 ```
-
-## XX. Create `Kubernetes manifests`
-
-## XX. Create a new GitHub Repo and check-in the App code
 
 ## XX. Create a Credential for AWS CLI (which will be used by eksctl)
