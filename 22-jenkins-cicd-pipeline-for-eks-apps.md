@@ -136,6 +136,121 @@ sudo unzip awscliv2.zip
 sudo ./aws/install
 ```
 
+### Install and Configure Docker
+
+```
+sudo yum install -y docker
+
+sudo systemctl start docker
+
+sudo systemctl enable docker
+
+# Add jenkins and ec2-user to docker group
+sudo usermod -a -G docker ec2-user
+sudo usermod -a -G docker jenkins
+
+[IMP: Restart the Jenkins server and now you as a ec2-user & jenkins user should be able to run docker commands]
+```
+
+### Verify all the installed packages
+
+```
+java --version
+jenkins --version
+git --version
+aws --version
+docker --version
+kubectl version --client
+eksctl version
+
+```
+
+### Elevate access levels of `jenkins` user to run Docker and Kubectl commands
+
+```
+# Add jenkins user to the docker group
+sudo usermod -aG docker jenkins
+
+# Add the jenkins user to the sudoers file
+visudo
+
+[Press "G" to go to the end of the file and press "i" to go in insert mode]
+
+# Allow root to run any command anywhere
+root    ALL=(ALL)     ALL
+jenkins ALL=(ALL)     NOPASSWD: ALL
+
+# Restart the Jenkins service
+sudo systemctl restart jenkins
+OR
+sudo service jenkins restart
+
+# Create a new directory for kubeconfig file
+mkdir /var/lib/jenkins/.kube
+```
+
+## XX. Install `Jenkins Plugins`
+
+- Install the following Jenkins plugins:
+  - Pipeline: Stage view
+  - Pipeline
+  - Docker Pipeline
+  - Pipeline: AWS Steps
+
+## XX. Generate DockerHub Account Security Token and save it on Jenkins server
+
+```
+To use the access token from your Docker CLI client:
+
+1. Run
+
+docker login -u kbindesh
+
+2. At the password prompt, enter the personal access token.
+
+dckr_pat_o1B1VJf_3fBS7cKWsdfdfgm-Lxl0
+```
+
+## XX. Develop an `Application` with `Dockerfile` & `Jenkinsfile`
+
+### XX. Develop an App (source code)
+
+- You can clone this sample app repo: https://github.com/kbindesh/docker-sample-app
+
+```
+git clone https://github.com/kbindesh/docker-sample-app.git
+```
+
+### XX. Create a 'Dockerfile' (for packaging app in Docker Images)
+
+```
+FROM node:18-alpine
+RUN mkdir -p /usr/src/app
+COPY ./app/* /usr/src/app
+WORKDIR /usr/src/app
+RUN npm install
+CMD node /usr/src/app/index.js
+```
+
+### XX. Create a `Jenkinsfile` (for Jenkins pipeline)
+
+- You may refer to this [Jenkinsfile](./manifests/Jenkinsfile)
+
+## XX. Create and Run a Jenkins Pipeline job
+
+- **Name**: eks-app-deployment
+- **Type**: Pipeline
+- Description: This pipeline is for building docker image of a sample app and deploying it on EKS cluster.
+- Trigger: GitHub hook trigger for GITScm polling
+- Pipeline
+  - Definition: Pipeline script from SCM
+  - SCM: Git
+  - Repository URL: <your_github_repo_url>
+  - Branches to build: <your_github_repo_branch>
+  - Script path: Jenkinsfile
+
+## XX. Verify the pushed Docker Image from DockerHub registry
+
 ## XX. Create an `AWS IAM Policies & Role` for Jenkins and K8s Mgmt Servers
 
 - This reference doc link describes the minimum IAM policies needed to run the main use cases of eksctl: </br> *https://eksctl.io/usage/minimum-iam-policies/*
@@ -192,13 +307,16 @@ sudo ./aws/install
 - SSH to K8s Management Server and Run the following commands:
 
 ```
-eksctl create cluster --name=labekscluster --region=us-east-1 --zones=us-east-1a,us-east-1b --without-nodegroup
+eksctl create cluster --name=labekscluster --region=us-east-1 --zones=us-east-1a,us-east-1b --without-nodegroup --kubeconfig=/var/lib/jenkins/.kube/config
 
 # Get List of clusters
 eksctl get cluster
+
+# Change the ownership of "kubeconfig" file to jenkins user
+sudo chown -R jenkins:jenkins /var/lib/jenkins/.kube
 ```
 
-:warning: The cluster creation process can take around 10 to 15 mins to complete.
+:INFO: The cluster creation process can take around 10 to 15 minutes to complete.
 
 ### Create an EC2 Keypair for Nodegroup EC2 instances (worker nodes)
 
@@ -261,21 +379,6 @@ aws eks update-kubeconfig --name labekscluster --region us-east-1
 
 cat ~/.kube/config
 ```
-
-## XX. Install `Jenkins Plugins`
-
-- Install the following Jenkins plugins:
-  - Pipeline: Stage view
-  - Pipeline
-  - Docker Pipeline
-
-## XX. Develop Application (source code)
-
-## XX. Generate DockerHub Account Security Token and save it on Jenkins server
-
-## XX. Create a 'Dockerfile' (for packaging app in Docker Images)
-
-## XX. Create a `Jenkinsfile` (for Jenkins pipeline)
 
 ## XX. Create `Kubernetes manifests`
 
