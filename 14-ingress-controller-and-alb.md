@@ -8,3 +8,5 @@
 - We will use Kubernetes Service resource to create NLB
 
 ## Lab: Create & configure load
+
+https://docs.aws.amazon.com/eks/latest/userguide/auto-configure-alb.html
