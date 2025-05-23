@@ -1,12 +1,18 @@
-# Project: Jenkins pipeline for Application deployment on Amazon EKS Cluster
+# Jenkins pipeline for Application deployment on Amazon EKS Cluster
 
-## XX. Overview
+## Step-01: Overview
 
-## XX. Pre-requisites
+This article will demonstrate how to create a Jenkins based CI/CD pipeline to develop, package, ship and deploy application on Amazon EKS cluster.
 
-## XX. Setup `K8s Management Server` on ec2 instance
+## Step-02: Pre-requisites
 
-### Setup `Config Server` on EC2 Instance
+- An AWS Account with admin privileges (https://console.aws.amazon.com/)
+- A GitHub Account (https://github.com/)
+- A DockerHub Account (https://hub.docker.com/)
+
+## Step-03: Setup `K8s Management Server` on ec2 instance
+
+### 3.1 Create an EC2 instance - Management Server
 
 - AWS Management Console >> EC2 >> Launch Instances
 - Name: `config-server`
@@ -20,7 +26,7 @@
 - Storage settings
   - Root Volume size: 15GB
 
-### Install `kubectl` on Config server
+### 3.2 Install `kubectl` on Config server
 
 - Ref: *https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html*
 
@@ -35,9 +41,9 @@ chmod +x kubectl
 mv kubectl /usr/local/bin
 ```
 
-### Install `eksctl` on Config server
+### 3.3 Install `eksctl` on Config server
 
-- *https://eksctl.io/installation/*
+- Reference: *https://eksctl.io/installation/*
 
 ```
 ARCH=amd64
@@ -56,13 +62,16 @@ tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 sudo mv /tmp/eksctl /usr/local/bin
 ```
 
-### Install `Git` on Config server
+### 3.4 Install `Git` on Config server
 
 ```
 sudo yum install -y git
+
+# Check git version
+git --version
 ```
 
-### Install `AWS CLI`
+### Install/Upgrade `AWS CLI`
 
 - Official Documentation: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
@@ -78,29 +87,31 @@ sudo unzip awscliv2.zip
 
 # Install AWS CLI
 sudo ./aws/install
+
+[Recommended: Restart the server to bring new changes]
 ```
 
-## XX. Setup `Jenkins Server`
+## Step-04: Setup `Jenkins Server`
 
-### Create an EC2 Instance
+### 4.1 Create an EC2 Instance - Jenkins Server
 
-- AWS Management Console >> EC2 >> Launch Instances
-  - Name: config-server
-  - AMI: Amazon Linux 2
-  - Instance Type: t3.small
-  - Network Settings
+- AWS Management Console >> **EC2** >> Launch Instances
+  - **Name**: config-server
+  - **AMI**: Amazon Linux 2
+  - **Instance Type**: t3.small
+  - **Network Settings**
     - VPC: Default
     - Subnet: Default
     - Public IP: Enabled
     - Security Group: Allow Ingress traffic on port 22, 8080
-  - Storage settings
+  - **Storage settings**
     - Root Volume size: 15GB (min)
 
-### Install and Configure `Jenkins`
+### 4.2 Install and Configure `Jenkins`
 
 - [Installing and Configuring Jenkins Server](https://github.com/kbindesh/jenkins-masterclass/tree/main/Module-03_Setting_up_Jenkins/01-jenkins-on-amazon-linux)
 
-### Install `kubectl`
+### 4.3 Install `kubectl`
 
 - Official Documentation: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
@@ -118,7 +129,7 @@ mv kubectl /usr/local/bin
 kubectl version
 ```
 
-### Install `AWS CLI`
+### 4.4 Install/Upgrade `AWS CLI`
 
 - Official Documentation: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
@@ -136,36 +147,38 @@ sudo unzip awscliv2.zip
 sudo ./aws/install
 ```
 
-### Install and Configure Docker
+### 4.5 Install and Configure Docker
 
 ```
+# Install Docker
 sudo yum install -y docker
 
+# Start docker service
 sudo systemctl start docker
 
+# Enable docker service
 sudo systemctl enable docker
-
-# Add jenkins and ec2-user to docker group
-sudo usermod -a -G docker ec2-user
-sudo usermod -a -G docker jenkins
-
-[IMP: Restart the Jenkins server and now you as a ec2-user & jenkins user should be able to run docker commands]
 ```
 
-### Verify all the installed packages
+### 4.6 Verify all the installed packages
 
 ```
 java --version
-jenkins --version
-git --version
-aws --version
-docker --version
-kubectl version --client
-eksctl version
 
+jenkins --version
+
+git --version
+
+aws --version
+
+docker --version
+
+kubectl version --client
+
+eksctl version
 ```
 
-### Elevate access levels of `jenkins` user to run Docker and Kubectl commands
+### 4.7 Elevate access levels of `jenkins` user to run `docker` and `kubectl` commands
 
 ```
 # Add jenkins user to the docker group
@@ -187,22 +200,32 @@ sudo service jenkins restart
 
 # Create a new directory for kubeconfig file
 mkdir /var/lib/jenkins/.kube
+
+[IMP: Restart the Jenkins server and now you as a ec2-user & jenkins user should be able to run docker commands]
 ```
 
-## XX. Install `Jenkins Plugins`
+## Step-05: Install `Jenkins Plugins`
 
 - Install the following Jenkins plugins:
-  - Pipeline: Stage view
-  - Pipeline
-  - Docker Pipeline
-  - Pipeline: AWS Steps
+  - _Pipeline: Stage view_
+  - _Pipeline_
+  - _Docker Pipeline_
+  - _Pipeline: AWS Steps_
 
-## XX. Generate DockerHub Account Security Token and save it on Jenkins server
+## Step-06: Generate DockerHub Account Security Token and save it on Jenkins server
+
+- Sign-in to you DockerHub account, https://hub.docker.com/ >> Sign-in
+- Click on user dropdown list (top-right corner) >> Account settings >> **Personal access tokens** >> **Generate new token**
+  - **Description**: Jenkins integration
+  - **Expiration Date**: None
+  - **Access Permission**: Read & Write
+    (Read & Write tokens allow you to push images to any repository managed by your account)
 
 ```
+# Sample output on generating PAT
 To use the access token from your Docker CLI client:
 
-1. Run
+1. User name will be your account name i.e kbindesh
 
 docker login -u kbindesh
 
@@ -211,11 +234,11 @@ docker login -u kbindesh
 dckr_pat_o1B1VJf_3fBS7cKWsdfdfgm-Lxl0
 ```
 
-## XX. Create an `AWS IAM Policies & Role` for Jenkins and K8s Mgmt Servers
+## Step-07: Create an `AWS IAM Policies & Role` for Jenkins and K8s Mgmt Servers
 
 - This reference doc link describes the minimum IAM policies needed to run the main use cases of eksctl: </br> *https://eksctl.io/usage/minimum-iam-policies/*
 
-### Create an IAM policy - `EksAllAccess`
+### 7.1 Create an IAM policy - `EksAllAccess`
 
 - AWS Management console >> IAM >> Policies >> Create Policy
 - Open JSON Editor (click on JSON button).
@@ -224,7 +247,7 @@ dckr_pat_o1B1VJf_3fBS7cKWsdfdfgm-Lxl0
 - **Policy Name**: EksAllAccess
 - Click on **Create Policy** button
 
-### Create an IAM policy - `IamLimitedAccess`
+### 7.2 Create an IAM policy - `IamLimitedAccess`
 
 - AWS Management console >> IAM >> Policies >> Create Policy
 - Open JSON Editor (click on JSON button).
@@ -233,7 +256,7 @@ dckr_pat_o1B1VJf_3fBS7cKWsdfdfgm-Lxl0
 - **Policy name**: IamLimitedAccess
 - Click on **Create Policy** button
 
-### Create an AWS IAM Role for Config server - `SetupEKSClusterRole`
+### 7.3 Create an AWS IAM Role for Config server - `SetupEKSClusterRole`
 
 - Create an IAM Role for Config server with access to following services:
 
@@ -257,12 +280,12 @@ dckr_pat_o1B1VJf_3fBS7cKWsdfdfgm-Lxl0
   - **Role Name**: `SetupEKSClusterRole`
   - **Description**: This IAM role is responsible for setting-up EKS cluster from config server.
 
-## XX. Assign IAM role to Jenkins and K8s Management Server
+## Step-08: Assign IAM role to Jenkins and K8s Management Server
 
 - AWS Management console >> EC2 >> Select the Jenkins Server (EC2 Instance)
 - Click on **Actions** menu >> **Security** >> **Modify IAM Role** >> Select _SetupEKSClusterRole_ role we created in the previous step.
 
-## XX. Create an `Amazon EKS Cluster` using `eksctl` from K8s Management Server
+## Step-09: Create an `Amazon EKS Cluster` using `eksctl` from K8s Management Server
 
 - SSH to K8s Management Server and Run the following commands:
 
@@ -278,7 +301,7 @@ sudo chown -R jenkins:jenkins /var/lib/jenkins/.kube
 
 :INFO: The cluster creation process can take around 10 to 15 minutes to complete.
 
-### Create an EC2 Keypair for Nodegroup EC2 instances (worker nodes)
+### 9.1 Create an EC2 Keypair for Nodegroup EC2 instances (worker nodes)
 
 - You can use any existing keypair or create a new one. In case you already have a keypair, you can skip this step and continue with the next one.
 
@@ -287,19 +310,19 @@ sudo chown -R jenkins:jenkins /var/lib/jenkins/.kube
   - **Key pair type**: RSA
   - **Private key file format**: .pem
 
-### Associate IAM OIDC Provider to EKS Cluster
+### 9.2 Associate IAM OIDC Provider to EKS Cluster
 
 ```
 eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster labekscluster --approve
 ```
 
-### Create EKS Node Group with additional add-ons
+### 9.3 Create EKS Node Group with additional add-ons
 
 ```
 eksctl create nodegroup --cluster=labekscluster --region=us-east-1 --name=eksdemo1-ng-public1 --node-type=t3.small --nodes=1 --nodes-min=1 --nodes-max=4 --node-volume-size=20 --ssh-access --ssh-public-key=binWinWebServerKey --managed --asg-access --external-dns-access --full-ecr-access --appmesh-access --alb-ingress-access
 ```
 
-### Verify the created EKS Resources
+### 9.4 Verify the created EKS Resources
 
 - **Verify NodeGroup subnets | Make sure EC2 instances are in public subnet**
 
@@ -328,9 +351,9 @@ eksctl create nodegroup --cluster=labekscluster --region=us-east-1 --name=eksdem
   kubectl config view --minify
   ```
 
-## XX. Develop an `Application`, `Dockerfile` & `Jenkinsfile`
+## Step-10: Develop an `Application`, `Dockerfile` & `Jenkinsfile`
 
-### XX. Develop an App (source code)
+### 10.1 Develop an App (source code)
 
 - You can clone this sample app repo: https://github.com/kbindesh/docker-sample-app
 
@@ -338,7 +361,7 @@ eksctl create nodegroup --cluster=labekscluster --region=us-east-1 --name=eksdem
 git clone https://github.com/kbindesh/docker-sample-app.git
 ```
 
-### XX. Create a 'Dockerfile' (for packaging app in Docker Images)
+### 10.2 Create a 'Dockerfile' (for packaging app in Docker Images)
 
 ```
 FROM node:18-alpine
@@ -349,15 +372,15 @@ RUN npm install
 CMD node /usr/src/app/index.js
 ```
 
-### XX. Create a `Jenkinsfile` (for Jenkins pipeline)
+### 10.3 Create a `Jenkinsfile` (for Jenkins pipeline)
 
 - You may refer to this [Jenkinsfile](./manifests/Jenkinsfile)
 
-## XX. Create `Kubernetes manifests` to deploy
+## Step-11: Create `Kubernetes manifests` to deploy
 
-## XX. Create a new GitHub Repo and check-in the code
+## Step-12: Create a new GitHub Repo and check-in the code
 
-## XX. Create and Run a Jenkins Pipeline job
+## Step-13: Create and Run a Jenkins Pipeline job
 
 - **Name**: eks-app-deployment
 - **Type**: Pipeline
@@ -370,9 +393,9 @@ CMD node /usr/src/app/index.js
   - Branches to build: <your_github_repo_branch>
   - Script path: Jenkinsfile
 
-## XX. Verify the published Docker Image from DockerHub registry and Deployed app on EKS cluster
+## Step-14: Verify the published Docker Image from DockerHub registry and Deployed app on EKS cluster
 
-## XX. (Optional) Connect kubectl to an EKS cluster from Jenkins Server (create a kubeconfig file)
+## Step-15: (Optional) Connect kubectl to an EKS cluster from Jenkins Server (create a kubeconfig file)
 
 - Reference: Ref: https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
 
@@ -384,4 +407,4 @@ aws eks update-kubeconfig --name labekscluster --region us-east-1
 cat ~/.kube/config
 ```
 
-## XX. Create a Credential for AWS CLI (which will be used by eksctl)
+## Step-16: (Optional) Create a Credential for AWS CLI (which will be used by eksctl)
