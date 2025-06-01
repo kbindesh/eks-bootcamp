@@ -7,16 +7,20 @@
 
 ## Random steps
 
+```
+eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster labekscluster --approve
+```
+
 ### Create IAM Policies
 
 ```
 # Download the IAM policy doc
-curl -o .\manifests\eks-alb-manifests\iam_policy_latest.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+curl -o .\manifests\alb-manifests\iam_policy_latest.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
 
 # Verify the downloaded file
 
 # Create IAM Policy using policy downloaded
-aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://manifests\eks-alb-manifests\iam_policy_latest.json
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://manifests\alb-manifests\iam_policy_latest.json
 
 
 [Keep the above created iam policy arn handy. We'll need it in later steps]
@@ -57,7 +61,7 @@ kubectl get sa aws-load-balancer-controller -n kube-system
 kubectl describe sa aws-load-balancer-controller -n kube-system
 ```
 
-### Install Helm (v3)
+### (Optional) Install Helm (v3)
 
 - Reference:
   - https://helm.sh/docs/intro/install/
@@ -78,7 +82,7 @@ helm repo add eks https://aws.github.io/eks-charts
 helm repo update
 
 # Install the AWS Load Balancer Controller | REPLACE VPC ID WITH YOURS
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=labekscluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller  --set region=us-east-1 --set vpcId=vpc-006eef4617ea9c452 --set image.repository=public.ecr.aws/eks/aws-load-balancer-controller
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=labekscluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller  --set region=us-east-1 --set vpcId=vpc-01778c7e810337ed9 --set image.repository=public.ecr.aws/eks/aws-load-balancer-controller
 
 # Verify that the controller is installed and Webhook Service created
 kubectl -n kube-system get deployment
