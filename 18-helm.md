@@ -2,11 +2,14 @@
 
 - Official website: https://helm.sh/
 
-## 01. Introduction
+## 01. Preparing a K8s and Helm environment
 
-- Helm is written in Go language
-- Bitnami Repo: https://bitnami.com/stacks/helm
-- GitHub Repo for charts: https://github.com/bitnami/charts
+- In this section, we will outline the tools and concepts that are required in order to begin working with Helm.
+- The following topics will be covered:
+  - **Preparing a local Kubernetes environment with `Minikube`**
+  - **Setting up `kubectl`**
+  - **Setting up `Helm`**
+  - **Configuring `Helm`**
 
 ## 02. Install Helm
 
