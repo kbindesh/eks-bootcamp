@@ -1,6 +1,6 @@
 # Kubernetes Namespaces
 
-In this section, following topics are demonstrated:
+In this section, you will learn the following concepts:
 
 - Namespace Overview
 - Listing Namespaces
@@ -49,7 +49,7 @@ kubectl apply -f manifests/dev-namespace.yml
 kubectl apply -f manifests/prod-namespace.yml
 ```
 
-## 04. Deploy an App in dev and production Namespaces
+## 04. Deploy an Application in custom Namespaces
 
 - You can specify details for an application in two ways:
 
