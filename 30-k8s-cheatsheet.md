@@ -123,7 +123,7 @@ This is a quick reference to most often used key kubectl commands with it's desc
   </tr>  
 </table>
 
-## XX. K8s manifests (configuration files) Commands
+## 03. K8s manifests (configuration files) Commands
 
 <table style="width:100%">
   <tr>
@@ -163,7 +163,7 @@ This is a quick reference to most often used key kubectl commands with it's desc
   </tr>         
 </table>
 
-## XX. K8s `Nodes` Commands
+## 04. K8s `Nodes` Commands
 
 - A K8s node can be a physical or virtual machine that runs K8s containerized workloads.
 - Each node will have the following:
@@ -237,7 +237,7 @@ This is a quick reference to most often used key kubectl commands with it's desc
 - Step-01: kubectl drain NODE_NAME
 - Step-02: kubectl delete NODE_NAME
 
-## XX. K8s `Namespaces` Commands
+## 05. K8s `Namespaces` Commands
 
 - A K8s namespace is a logical partition within a cluster that isolates groups of resources for organizational or access control purposes.
 
@@ -278,7 +278,7 @@ This is a quick reference to most often used key kubectl commands with it's desc
   </tr>          
 </table>
 
-## XX. K8s `Pods` Commands
+## 06. K8s `Pods` Commands
 
 - A pod is a smallest deployble application unit in Kubernetes, consisting of one or more containers.
 
@@ -343,26 +343,49 @@ This is a quick reference to most often used key kubectl commands with it's desc
   </tr>   
 </table>
 
-## XX. K8s `replicaSets` Commands
+## 07. K8s `replicaSets` Commands
 
-## XX. K8s `Deployment` Commands
+- A K8s ReplicaSet ensures a specified number of identical pod replicas are running at all times.
+  - **Ensures Availability (HA)**: Keeps the exact number of pods running, crucial for application uptime.
+  - **Self-Healing**: Detects dead pods and create new ones to replace them.
+  - **Scaling**: Easily adjust the number of replicas up or down via configuration.
+  - **Redundancy**: Provides fault tolerance by running multiple instances of Pod.
 
-## XX. K8s `DaemonSets` Commands
+<table style="width:100%">
+  <tr>
+    <th>Command</th>
+    <th>Description</th>
+    <th>Examples</th>
+  </tr>
+  <tr>
+    <td>kubectl get replicasets</td>
+    <td>Get the list of all the replicaSets</td>
+  </tr>
+  <tr>
+    <td>kubectl describe replicasets</td>
+    <td>Disply detailed information about state of a particular replicaSet</td>
+  </tr>
+  <tr>
+    <td>kubectl scale replicaset --replicas $REPLICASET_NAME</td>
+    <td>Scale the number of pods in a particular replicaSet</td>
+    <td>kubectl scale replicaset --replicas=5  bin-app-replicaset</td>
+  </tr>    
+</table>
 
-## XX. K8s `Annotation` Commands
+## 08. K8s `Deployment` Commands
 
-## XX. K8s `Labels` Commands
+## 09. K8s `DaemonSets` Commands
 
-## XX. K8s Storage services Commands (StorageClass, PVC, PV)
+## 10. K8s `Annotation` Commands
 
-## XX. HorizontalPodAutoscaling Commands
+## 11. K8s `Labels` Commands
 
-## XX. K8s `Job` and `CronJob` Commands
+## 12. K8s Storage services Commands (StorageClass, PVC, PV)
 
-## XX. K8s Security services Commands (role,roleBinding,clusterRole, clusterRoleBinding)
+## 13. K8s `Job` and `CronJob` Commands
 
-## XX. K8s `Events` Commands
+## 14. K8s Security services Commands (role,roleBinding,clusterRole, clusterRoleBinding)
 
-## XX. K8s `Logs` Commands
+## 15. K8s `Events` Commands
 
-## All the K8s APIs with namespace scope
+## 16. K8s `Logs` Commands
