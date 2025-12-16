@@ -179,9 +179,7 @@ This is a quick reference to most often used key kubectl commands with it's desc
   </tr>
   <tr>
     <td>kubectl get nodes</td>
-    <td>
-      List k8s cluster nodes
-    </td>
+    <td>List k8s cluster nodes</td>
     <td>
       kubectl get nodes</br>
       kubectl get nodes -o wide</br>
@@ -189,14 +187,49 @@ This is a quick reference to most often used key kubectl commands with it's desc
   </tr>
   <tr>
     <td>kubectl delete nodes</td>
-    <td>
-      Delete a node or multiple nodes.
-    </td>
-    <td>
-      kubectl delete node NODE_NAME
-     </td>
+    <td>Delete a node or multiple nodes</td>
+    <td>kubectl delete node NODE_NAME</td>
   </tr>  
-    
+  <tr>
+    <td>kubectl top node $NODE_NAME</td>
+    <td>Display Resource usage (CPU/Memory/Storage) of a specific node</td>
+    <td>kubectl top node node-1</td>
+  </tr>    
+  <tr>
+    <td>kubectl get pods -o wide | grep $NODE_NAME</td>
+    <td>List all the pods running on a specific node</td>
+    <td>kubectl get pods -o wide | grep node-1</td>
+  </tr>
+  <tr>
+    <td>kubectl annotate node $NODE_NAME "annotation_key=annotation_value"</td>
+    <td>Annotate a node</td>
+    <td>kubectl annotate node node-1 contact-email="bin@example.com"</td>
+  </tr>
+  <tr>
+    <td>kubectl describe node $NODE_NAME</td>
+    <td>Display detailed information about a node</td>
+    <td>kubectl describe node node-2</td>
+  </tr>
+  <tr>
+    <td>kubectl label node $NODE_NAME $LABEL_KEY=$LABEL_VALUE</td>
+    <td>Add a new label to a specific node</td>
+    <td>kubectl label node worker-1 disktype=ssd</td>
+  </tr>
+  <tr>
+    <td>kubectl drain node $NODE_NAME</td>
+    <td>Used to safely evacuate all the pods from a specific node and mark the node as unschedulable</td>
+    <td>kubectl drain node worker-1</td>
+  </tr>
+  <tr>
+    <td>kubectl cordon node $NODE_NAME</td>
+    <td>Mark a node as unschedulable</td>
+    <td>kubectl cordon node worker-1</td>
+  </tr>
+  <tr>
+    <td>kubectl edit node $NODE_NAME</td>
+    <td>Open the node config in your default editor for manual changes to a specific  node</td>
+    <td>kubectl edit node worker-3</td>
+  </tr>     
 </table>
 
 ### `Expert's TIP`: Recommended practice for safely evict pods & removing a node from the k8s cluster is:
@@ -210,21 +243,11 @@ This is a quick reference to most often used key kubectl commands with it's desc
 
 <table style="width:100%">
   <tr>
-    <th>Resource</th>
-    <th>API Kind</th>
-    <th>Namespace Scoped</th>
     <th>Command</th>
     <th>Description</th>
+    <th>Examples</th>
   </tr>
   <tr>
-    <td rowspan="10">Namespace</td>
-  </tr>
-   <tr>
-    <td rowspan="10">Namespace</td>
-  </tr>
- <tr>
-    <td rowspan="10">True</td>
-  </tr>
  <tr>
     <td>kubectl create namespace NAMESPACE_NAME</td>
     <td>Create a Namespace</td>
@@ -255,15 +278,80 @@ This is a quick reference to most often used key kubectl commands with it's desc
   </tr>          
 </table>
 
-## XX. `LimitRange` and `ResourceQuota` Commands
-
 ## XX. K8s `Pods` Commands
+
+- A pod is a smallest deployble application unit in Kubernetes, consisting of one or more containers.
+
+<table style="width:100%">
+  <tr>
+    <th>Command</th>
+    <th>Description</th>
+    <th>Examples</th>
+  </tr>
+  <tr>
+    <td>kubectl create pod $POD_NAME</td>
+    <td>Get detailed information about a Pod</td>
+  </tr>
+  <tr>
+    <td>kubectl get pods</td>
+    <td>List pods</td>
+  </tr>
+  <tr>
+    <td>kubectl get pods -o wide</br>
+        kubectl get pods -o yaml</br>
+        kubectl get pods -o json</br>
+    </td>
+    <td>List pods and render the details in various formats</td>
+  </tr>
+  <tr>
+    <td>kubectl get pods --show-labels</td>
+    <td>Get pods along with its labels</td>
+  </tr>  
+  <tr>
+    <td>kubectl get pods --field-selector=status.phase=Running</td>
+    <td>List all the running pods present in the default namespace</td>
+  </tr>
+  <tr>
+    <td>kubectl delete pod $POD_NAME</td>
+    <td>Delete a Pod</td>
+  </tr>
+  <tr>
+    <td>kubectl describe pod $POD_NAME</td>
+    <td>Get detailed information about a Pod</td>
+  </tr>
+  <tr>
+    <td>kubectl exec $POD_NAME -c $CONTAINER_NAME $COMMAND</td>
+    <td>Execute a command inside a container running inside a pod</td>
+  </tr> 
+  <tr>
+    <td>kubectl top pods</td>
+    <td>Display resource usage (cpu,memory,storage) of the pods</td>
+  </tr>
+  <tr>
+    <td>kubectl annotate pod $POD_NAME $ANNOTATION</td>
+    <td> Add/Update the annotations of a pod</td>
+  </tr> 
+  <tr>
+    <td>kubectl label pod $POD_NAME $label_key=$label_value</td>
+    <td> Add a label to a specific pod</td>
+    <td>kubectl label pod my-pod app=frontend</td>
+  </tr> 
+  <tr>
+    <td>kubectl logs $POD_NAME</td>
+    <td> View logs coming from the main container of a pod. </br>In a multi-container pods, add -c $CONTAINER_NAME</td>
+    <td></td>
+  </tr>   
+</table>
 
 ## XX. K8s `replicaSets` Commands
 
 ## XX. K8s `Deployment` Commands
 
 ## XX. K8s `DaemonSets` Commands
+
+## XX. K8s `Annotation` Commands
+
+## XX. K8s `Labels` Commands
 
 ## XX. K8s Storage services Commands (StorageClass, PVC, PV)
 
